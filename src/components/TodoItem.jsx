@@ -4,6 +4,16 @@ import { todoListState } from '../atom'
 export const TodoItem = ({ item }) => {
     // 状態の取得と更新なのでuseRecoilState
     const [todoList, setTodoList] = useRecoilState(todoListState)
+
+    const editItemText = (e) => {
+        const index = todoList.findIndex((listItem) => listItem.id === item.id)
+        const newTodoList = [
+            ...todoList.slice(0, index),
+            { ...item,title:e.target.value},
+            ...todoList.slice(index + 1)
+        ]
+        setTodoList(newTodoList);
+    }
     
     const toggleItemCompletion = () => {
         const index = todoList.findIndex((listItem) => listItem.id === item.id)
@@ -33,7 +43,7 @@ export const TodoItem = ({ item }) => {
                 checked={item.isComplete}
                 onChange={toggleItemCompletion}
             />
-            {item.title}
+            <input type="text" value={item.title} onChange={editItemText } />
             <span onClick={deleteItem} style={{ cursor:'pointer'}}> X</span>
         </div>
     )
