@@ -1,4 +1,19 @@
-import { atom } from 'recoil'
+import { atom,AtomEffect,DefaultValue } from 'recoil'
+
+const localStorageEffect = key => ({setSelf,onSet }) => {
+    const savedvalue = localStorage.getItem(key)
+    if (savedvalue != null) {
+        setSelf(JSON.parse(savedvalue))
+    }
+
+    onSet((newValue) => {
+        if (newValue instanceof DefaultValue) {
+            localStorage.removeItem(key)
+        } else {
+            localStorage.setItem(key, JSON.stringify(newValue))
+        }
+    })
+}
 
 // atomを使って共有したい状態を定義する
 export const todoListState = atom({
@@ -10,6 +25,9 @@ export const todoListState = atom({
             title: 'sent mail',
             isComplete: false            
         }
+    ],
+    effects: [
+        localStorageEffect('todoListState')
     ]
 })
 
