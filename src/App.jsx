@@ -1,13 +1,12 @@
-import React from 'react';
-import { RecoilRoot } from 'recoil'
+import { RecoilRoot } from 'recoil';
 
-import { TodoList } from './components/TodoList'
+import { TodoList } from './components/TodoList';
 
 function App() {
   // const todoList = useRecoilValue(todoListState);
 
   return (
-    <div style={{margin:'2em'}}>
+    <div style={{ margin: '2em' }}>
       <RecoilRoot>
         <TodoList />
       </RecoilRoot>

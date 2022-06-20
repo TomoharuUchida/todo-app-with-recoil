@@ -1,39 +1,40 @@
 import { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import { todoListState } from '../atom'
+import { todoListState } from '../atom';
 
-export const TodoItemCreator = () => {
-    const [title, setTitle] =useState('')
+let id = 1;
+// const getId = () => id += 1;
+function getId() {
+  return id++;
+}
 
-    // 状態の更新のみで、取得はしないのでset
-    const setTodoList = useSetRecoilState(todoListState)
+export function TodoItemCreator() {
+  const [title, setTitle] = useState('');
 
-    const handleChange = (e) => {
-        setTitle(e.target.value)
-    }
+  // 状態の更新のみで、取得はしないのでset
+  const setTodoList = useSetRecoilState(todoListState);
 
-    const addItem = () => {
-        setTodoList((oldTodoList) => [
-            ...oldTodoList,
-            {
-                id: getId(),
-                title,
-                isComplete:false,
-            }
-        ])
-        setTitle('')
-    }
+  const handleChange = (e) => {
+    setTitle(e.target.value);
+  };
 
-    return (
-        <div style={{ margin: '1em 0' }}>
-            <input type="text" value={title} onChange={handleChange} />
-            <button onClick={addItem}>Add</button>
-        </div>
-    )
-};
+  const addItem = () => {
+    setTodoList((oldTodoList) => [
+      ...oldTodoList,
+      {
+        id: getId(),
+        title,
+        isComplete: false,
+      },
+    ]);
+    setTitle('');
+  };
 
-let id = 1
-const getId = () => {
-    return id++
+  return (
+    <div style={{ margin: '1em 0' }}>
+      <input type="text" value={title} onChange={handleChange} />
+      <button type="button" onClick={addItem}>Add</button>
+    </div>
+  );
 }
